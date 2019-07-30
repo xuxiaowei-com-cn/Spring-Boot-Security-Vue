@@ -2,9 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router' // 导入路由配置文件
 import store from './store' // 导入储存配置文件
+import Axios from 'axios' // 导入 Axios 配置文件
 import '@/plugins/element' // 导入 element-ui 配置文件
 
 Vue.config.productionTip = false;
+
+Vue.prototype.$axios = Axios;
 
 router.beforeEach((to, from, next) => {
 
