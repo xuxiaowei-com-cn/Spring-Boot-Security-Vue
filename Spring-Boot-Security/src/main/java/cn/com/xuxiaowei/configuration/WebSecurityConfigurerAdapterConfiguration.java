@@ -23,6 +23,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.LazyCsrfTokenRepository;
+
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Spring Security 配置
@@ -84,6 +89,7 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
         http.authorizeRequests().antMatchers("/test/user.do").hasRole("USER");
 
         // CSRF 策略
+        // 默认为懒加载
         http.csrf().csrfTokenRepository(cookieCsrfTokenRepository());
 
         // CSRF 策略 运行前 Filter
@@ -94,10 +100,20 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
     /**
      * CSRF 策略
      * <p>
+     * 默认为懒加载 {@link LazyCsrfTokenRepository}，会出现浏览器首次打开时，提交不了数据
+     * <p>
      * 此 Cookie 默认为 HttpOnly = true（不可读取），
      * 请勿修改为 HttpOnly = false（可读取），否则安全性无法保障
      * <p>
+     * 由于此 Cookie 无法读取，
+     * 提交数据时在{@link CsrfFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)}中验证 CSRF 时获取不到，
+     * 获取方式为：<code>String actualToken = request.getHeader(csrfToken.getHeaderName());</code>，即：从 Headers 中获取，
+     * 所以需要使用 {@link CsrfBeforeFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)}，
+     * 将前端传来的 Cookie 中的 CSRF 放入 Headers 中
+     *
      * <code>cookieCsrfTokenRepository.setCookieHttpOnly(false);</code>
+     * <p>
+     * 注：上述报错红，原因为该方法不是公共的，并非错误
      */
     private CookieCsrfTokenRepository cookieCsrfTokenRepository() {
         CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
