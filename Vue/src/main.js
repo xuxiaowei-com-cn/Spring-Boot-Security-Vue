@@ -10,8 +10,7 @@ Vue.use(VueResource); // 启用 VueResource
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$axios = Axios;
-
+Vue.prototype.$axios = Axios; // 启用 Axios 依赖
 
 router.beforeEach((to, from, next) => {
 
