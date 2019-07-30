@@ -12,3 +12,11 @@ server:
     # 用于覆盖原始端口值的HTTP标头的名称。
     port-header: X-Forwarded-Proto
 #
+# Spring Boot 配置
+spring:
+  #
+  # Thymeleaf 配置
+  thymeleaf:
+    # 是否启用模板缓存。
+    cache: false
+#
