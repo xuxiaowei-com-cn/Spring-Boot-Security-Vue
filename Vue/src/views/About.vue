@@ -34,6 +34,10 @@
                 console.log("测试 VueResource 响应失败", Promise.reject(resource));
             });
 
+            this.$cookies.set("new", new Date().toString());
+            // eslint-disable-next-line no-console
+            console.log("测试 Cookie", this.$cookies.get("new"));
+
         },
     }
 </script>
