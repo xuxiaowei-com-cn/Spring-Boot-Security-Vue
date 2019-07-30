@@ -16,6 +16,19 @@ Vue.prototype.$axios = Axios; // 启用 Axios 依赖
 
 router.beforeEach((to, from, next) => {
 
+    /**
+     * 获取 CSRF Cookie
+     */
+    Axios.get("/_csrf.do").then(function (resource) {
+        // eslint-disable-next-line no-console
+        console.log("获取 CSRF 成功", resource);
+        // eslint-disable-next-line no-console
+        console.log("CSRF Cookie Headers", resource.config.headers);
+    }).catch(function (resource) {
+        // eslint-disable-next-line no-console
+        console.log("获取 CSRF 异常", Promise.reject(resource));
+    });
+
     /* 根据路由设置 title，路由发生改变修改页面的 title */
     if (to.meta.title) {
         document.title = to.meta.title
