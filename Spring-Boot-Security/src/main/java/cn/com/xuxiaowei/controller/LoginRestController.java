@@ -47,8 +47,10 @@ public class LoginRestController {
 
     /**
      * 登录成功
+     * <p>
+     * 登录成功后重定向到此方法，GET
      */
-    @RequestMapping(value = "/success.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/success.do")
     public Map<String, Object> success(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(4);
         map.put("code", 0);
