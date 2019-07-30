@@ -26,6 +26,14 @@
                 console.log("测试 axios 响应失败", Promise.reject(resource));
             });
 
+            this.$http.get("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js").then(function (resource) {
+                // eslint-disable-next-line no-console
+                console.log("测试 VueResource 成功", resource);
+            }, function (resource) {
+                // eslint-disable-next-line no-console
+                console.log("测试 VueResource 响应失败", Promise.reject(resource));
+            });
+
         },
     }
 </script>
