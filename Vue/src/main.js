@@ -5,8 +5,10 @@ import store from './store' // 导入储存配置文件
 import Axios from 'axios' // 导入 Axios 配置文件
 import '@/plugins/element' // 导入 element-ui 配置文件
 import VueResource from 'vue-resource' // 导入 VueResource 依赖
+import VueCookies from 'vue-cookies' // 导入 VueCookies 依赖
 
 Vue.use(VueResource); // 启用 VueResource
+Vue.use(VueCookies); // 启用 VueCookies
 
 Vue.config.productionTip = false;
 
