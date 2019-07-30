@@ -3,13 +3,15 @@
  */
 import Vue from 'vue' // Vue，用于启用储存
 import Vuex from 'vuex' // 导入储存依赖
-import createPersistedState from 'vuex-persistedstate' // 导入持久化 Vuex 依赖
+import localStorageState from 'vuex-persistedstate' // 导入持久化 Vuex 依赖，本地储存
+import sessionStorageState from 'vuex-persistedstate' // 导入持久化 Vuex 依赖，会话储存
 
 Vue.use(Vuex); // Vue 启用依赖
 
 export default new Vuex.Store({
     state: {
-        isLogin: null, // 是否登录
+        isSessionLogin: null, // 是否会话登录
+        isLocalLogin: null, // 是否本地登录
     },
     mutations: {
         /**
@@ -19,18 +21,35 @@ export default new Vuex.Store({
          * @param payload
          */
         changeLogin(state, payload) {
-            state.isLogin = payload.isLogin
+            state.isSessionLogin = payload.isSessionLogin;
+            state.isLocalLogin = payload.isLocalLogin;
         },
     },
     actions: {},
-    plugins: [createPersistedState({
-        // storage: window.sessionStorage, // 
-        storage: window.localStorage, // 本地储存
-        reducer(val) {
-            return {
-                // 只储存 state 中的 isLogin
-                isLogin: val.isLogin
+    plugins: [
+        /**
+         * 本地储存
+         */
+        localStorageState({
+            storage: window.localStorage, // 本地储存
+            reducer(val) {
+                return {
+                    // 只储存 state 中的 isLocalLogin
+                    isLocalLogin: val.isLocalLogin
+                }
             }
-        }
-    })],
+        }),
+        /**
+         * 会话储存
+         */
+        sessionStorageState({
+            storage: window.sessionStorage, // 会话储存
+            reducer(val) {
+                return {
+                    // 只储存 state 中的 isSessionLogin
+                    isSessionLogin: val.isSessionLogin
+                }
+            }
+        }),
+    ],
 })
