@@ -15,6 +15,7 @@
  */
 package cn.com.xuxiaowei.controller;
 
+import cn.com.xuxiaowei.handler.LoginAuthenticationSuccessHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,9 +49,12 @@ public class LoginRestController {
     /**
      * 登录成功
      * <p>
-     * 登录成功后重定向到此方法，GET
+     * 登录成功后重定向到此方法为GET
+     * <p>
+     * 使用{@link LoginAuthenticationSuccessHandler}，进行登陆成功后请求转发，
+     * 如果有跨域，登录成功后西响应时，可在此类中处理
      */
-    @RequestMapping(value = "/success.do")
+    @RequestMapping(value = "/success.do", method = RequestMethod.POST)
     public Map<String, Object> success(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(4);
         map.put("code", 0);
