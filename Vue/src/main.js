@@ -24,6 +24,10 @@ router.beforeEach((to, from, next) => {
         console.log("获取 CSRF 成功", resource);
         // eslint-disable-next-line no-console
         console.log("CSRF Cookie Headers", resource.config.headers);
+        // eslint-disable-next-line no-console
+        console.log("如果浏览器的 Cookie 中（并非上面 Headers 中）没有 CSRF Cookie，说明 API CSRF 策略未配置成功");
+        // eslint-disable-next-line no-console
+        console.log("如果上面 Headers 中有 CSRF Cookie，说明 API CSRF 配置了 HttpOnly = false，安全性无法保障")
     }).catch(function (resource) {
         // eslint-disable-next-line no-console
         console.log("获取 CSRF 异常", Promise.reject(resource));
