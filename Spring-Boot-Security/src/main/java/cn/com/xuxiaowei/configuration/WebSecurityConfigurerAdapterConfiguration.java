@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * Spring Security 配置
@@ -29,6 +30,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @Configuration
 public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfigurerAdapter {
+
+    /**
+     * CSRF Cookie Name
+     */
+    public static final String CSRF_COOKIE_NAME = "demo-csrf-cookie";
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -75,6 +81,18 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
         // 至少要设置一个，防止报错
         http.authorizeRequests().antMatchers("/test/user.do").hasRole("USER");
 
+        // CSRF 策略
+        http.csrf().csrfTokenRepository(cookieCsrfTokenRepository());
+
+    }
+
+    /**
+     * CSRF 策略
+     */
+    private CookieCsrfTokenRepository cookieCsrfTokenRepository() {
+        CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+        cookieCsrfTokenRepository.setCookieName(CSRF_COOKIE_NAME);
+        return cookieCsrfTokenRepository;
     }
 
 }
