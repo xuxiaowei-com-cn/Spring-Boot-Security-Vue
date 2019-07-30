@@ -10,8 +10,8 @@ Vue.use(Vuex); // Vue 启用依赖
 
 export default new Vuex.Store({
     state: {
-        isSessionLogin: null, // 是否会话登录
-        isLocalLogin: null, // 是否本地登录
+        isSessionLogin: null, // 是否会话储存
+        isLocalLogin: null, // 是否本地储存
     },
     mutations: {
         /**

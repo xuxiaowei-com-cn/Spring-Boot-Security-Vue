@@ -68,7 +68,18 @@
                         that.$message({message: msg, type: "warning", customClass: "message-min-w"});
                     } else if (code === 0) {
                         that.$message({message: msg, type: 'success', customClass: "message-min-w"});
-                        that.$store.commit("changeLogin", {isLogin: true});
+
+                        /**
+                         * 此处应使用后台返回的数据判断是否勾选了记住密码，从而选择登录状态是本地储存还是会话储存
+                         *
+                         * 待修复
+                         */
+                        if (form.rememberMe) {
+                            that.$store.commit("changeLogin", {isLocalLogin: true});
+                        } else {
+                            that.$store.commit("changeLogin", {isSessionLogin: true});
+                        }
+
                         that.$router.push("/");
                     } else {
                         that.$message({message: "未知代码：" + code + "：" + msg, customClass: "message-min-w"});
