@@ -15,12 +15,14 @@
  */
 package cn.com.xuxiaowei.configuration;
 
+import cn.com.xuxiaowei.filter.CsrfBeforeFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 /**
  * Spring Security 配置
@@ -83,6 +85,9 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
 
         // CSRF 策略
         http.csrf().csrfTokenRepository(cookieCsrfTokenRepository());
+
+        // CSRF 策略 运行前 Filter
+        http.addFilterBefore(new CsrfBeforeFilter(cookieCsrfTokenRepository()), CsrfFilter.class);
 
     }
 
