@@ -16,7 +16,8 @@ export default new Router({ // 创建默认路由
             name: 'home', // title
             component: Home, // Vue 页面
             meta: {
-                title: 'Home'
+                title: 'Home',
+                requireAuth: true, // 页面需要授权
             }
         }, {
             path: '/login',
