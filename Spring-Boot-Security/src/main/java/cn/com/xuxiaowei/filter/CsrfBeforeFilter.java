@@ -15,13 +15,17 @@
  */
 package cn.com.xuxiaowei.filter;
 
+import cn.com.xuxiaowei.configuration.WebSecurityConfigurerAdapterConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -45,6 +49,7 @@ import java.util.Map;
  * @see CsrfFilter
  * @since 0.0.1
  */
+@Slf4j
 public class CsrfBeforeFilter extends OncePerRequestFilter {
 
     private final CsrfTokenRepository tokenRepository;
@@ -67,6 +72,42 @@ public class CsrfBeforeFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        // 获取 Session 中的 CSRF
+        CsrfToken csrfToken = tokenRepository.loadToken(request);
+
+        // Session 中无 CSRF（未访问过），将跳过
+        if (csrfToken != null) {
+
+            // CSRF 请求头的 name
+            String headerName = csrfToken.getHeaderName();
+
+            // 请求头中是否包含 CSRF value
+            // 此处应为恒为null（前台为设置过）
+            String header = request.getHeader(headerName);
+            if (header == null) {
+                // 获取 Cookie
+                Cookie[] cookies = request.getCookies();
+                // 遍历 Cookie
+                for (Cookie cookie : cookies) {
+                    // 查找 Spring Security 配置 配置中设置的 CSRF Cookie name 是否存在
+                    if (WebSecurityConfigurerAdapterConfiguration.CSRF_COOKIE_NAME.equals(cookie.getName())) {
+                        // 匹配到之后，将请求转换为自定义请求
+                        CustomizeRequest customizeRequest = new CustomizeRequest(request);
+                        // 在自定义请求中添加 CSRF Header
+                        customizeRequest.addHeader(headerName, cookie.getValue());
+                        // 使用自定义请求（包含了 CSRF Header）执行后续程序
+                        filterChain.doFilter(customizeRequest, response);
+                        return;
+                    }
+                }
+            } else {
+                logger.debug("");
+                logger.debug("检测到攻击：");
+                logger.debug("攻击方式：" + headerName + "：" + header);
+                logger.debug("请开发者自行处理");
+                logger.debug("");
+            }
+        }
 
         filterChain.doFilter(request, response);
     }
