@@ -18,6 +18,7 @@ package cn.com.xuxiaowei.controller;
 import cn.com.xuxiaowei.handler.LoginAuthenticationSuccessHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,12 +54,19 @@ public class LoginRestController {
      * <p>
      * 使用{@link LoginAuthenticationSuccessHandler}，进行登陆成功后请求转发，
      * 如果有跨域，登录成功后西响应时，可在此类中处理
+     * <p>
+     * 使用{@link LoginAuthenticationSuccessHandler}登录成功后进行请求转发，可在此方法中获取到用户提交的数据，
+     * 如： username、remember-me等（不要在此接收 password）
+     *
+     * @param rememberMe 记住我，需要在 {@link LoginAuthenticationSuccessHandler} 中使用请求转发才能获得
      */
     @RequestMapping(value = "/success.do", method = RequestMethod.POST)
-    public Map<String, Object> success(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> success(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam("remember-me") Boolean rememberMe) {
         Map<String, Object> map = new HashMap<>(4);
         map.put("code", 0);
         map.put("msg", "登录成功");
+        map.put("rememberMe", rememberMe);
         return map;
     }
 
