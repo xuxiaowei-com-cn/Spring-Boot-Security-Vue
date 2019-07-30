@@ -51,7 +51,15 @@
                 // let that = this;
                 let form = this.form;
                 // eslint-disable-next-line no-console
-                console.log(form)
+                console.log(form);
+
+                this.$axios.post("/login.do").then(function (resource) {
+                    // eslint-disable-next-line no-console
+                    console.log("登录结果", resource);
+                }).catch(function (resource) {
+                    // eslint-disable-next-line no-console
+                    console.log("登录异常", Promise.reject(resource));
+                })
 
             },
 
