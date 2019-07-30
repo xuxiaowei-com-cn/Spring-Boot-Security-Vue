@@ -93,6 +93,9 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
 
     /**
      * CSRF 策略
+     * <p>
+     * 此 Cookie 默认为 HttpOnly = true（不可读取），
+     * 请勿修改为 HttpOnly = false（可读取），否则安全性无法保障
      */
     private CookieCsrfTokenRepository cookieCsrfTokenRepository() {
         CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
