@@ -6,16 +6,20 @@
 
         <router-view/><!-- 路由显示 -->
 
+        <Footer/><!-- 脚部 -->
+
     </div>
 </template>
 
 <script>
     // import HelloWorld from './components/HelloWorld.vue'
+    import Footer from '@/components/Footer'
 
     export default {
         name: 'app',
         components: {
-            // HelloWorld
+            // HelloWorld,
+            Footer,
         }
     }
 </script>
