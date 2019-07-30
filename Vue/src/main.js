@@ -6,6 +6,7 @@ import Axios from 'axios' // 导入 Axios 配置文件
 import '@/plugins/element' // 导入 element-ui 配置文件
 import VueResource from 'vue-resource' // 导入 VueResource 依赖
 import VueCookies from 'vue-cookies' // 导入 VueCookies 依赖
+import JsEncrypt from 'jsencrypt/bin/jsencrypt.min' // 导入 JsEncrypt 依赖
 
 Vue.use(VueResource); // 启用 VueResource
 Vue.use(VueCookies); // 启用 VueCookies
@@ -13,6 +14,7 @@ Vue.use(VueCookies); // 启用 VueCookies
 Vue.config.productionTip = false;
 
 Vue.prototype.$axios = Axios; // 启用 Axios 依赖
+Vue.prototype.$jsEncrypt = JsEncrypt; // 启用 JsEncrypt 依赖
 
 router.beforeEach((to, from, next) => {
 
