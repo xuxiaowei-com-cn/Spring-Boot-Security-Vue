@@ -48,14 +48,31 @@
              * 登录
              */
             login: function () {
-                // let that = this;
+                let that = this;
                 let form = this.form;
                 // eslint-disable-next-line no-console
                 console.log(form);
 
-                this.$axios.post("/login.do").then(function (resource) {
+                let params = new URLSearchParams();
+                params.append('username', form.username);
+                params.append('remember-me', form.rememberMe);
+                params.append('password', form.password);
+
+                this.$axios.post("/login.do", params).then(function (resource) {
                     // eslint-disable-next-line no-console
                     console.log("登录结果", resource);
+                    let data = resource.data;
+                    let code = data.code;
+                    let msg = data.msg;
+                    if (code === 1) {
+                        that.$message({message: msg, type: "warning", customClass: "message-min-w"});
+                    } else if (code === 0) {
+                        that.$message({message: msg, type: 'success', customClass: "message-min-w"});
+                        that.$store.commit("changeLogin", {isLogin: true});
+                        that.$router.push("/");
+                    } else {
+                        that.$message({message: "未知代码：" + code + "：" + msg, customClass: "message-min-w"});
+                    }
                 }).catch(function (resource) {
                     // eslint-disable-next-line no-console
                     console.log("登录异常", Promise.reject(resource));
