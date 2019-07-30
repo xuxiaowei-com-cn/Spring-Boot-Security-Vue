@@ -42,11 +42,14 @@ router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth) { // 判断页面是否需要授权
 
         /**
+         * 判断进入授权页面时是否已登录
          * 如果已登录，应该进行适时鉴权
          *
          * 如：登录是否过期，权限是否改变，注意鉴权的时机
          */
-        if (store.state.isLocalLogin || store.state.isSessionLogin) { // 判断进入授权页面时是否已登录
+        if (store.state.isLocalLogin) { // 本地储存
+            next(); // 如果已登录，直接进入
+        } else if (store.state.isSessionLogin) { // 会话储存
             next(); // 如果已登录，直接进入
         } else {
             next({
