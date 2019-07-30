@@ -46,11 +46,11 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        // 配置密码编辑器
-        auth.inMemoryAuthentication().passwordEncoder(new CustomizePasswordEncoder());
-
-        // 设置用户名和密码以及权限
-        auth.inMemoryAuthentication().withUser("xuxiaowei").password("123").roles("USER");
+        auth.inMemoryAuthentication()
+                // 配置密码编辑器
+                .passwordEncoder(new CustomizePasswordEncoder())
+                // 设置用户名和密码以及权限
+                .withUser("xuxiaowei").password("123").roles("USER");
 
     }
 
