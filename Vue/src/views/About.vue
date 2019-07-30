@@ -1,5 +1,12 @@
 <template>
-    <h2>About</h2>
+    <div>
+        <h2>About</h2>
+        <div>
+            <router-link to="/login">
+                <el-button>Login</el-button>
+            </router-link>
+        </div>
+    </div>
 </template>
 
 <script>
