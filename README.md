@@ -7,7 +7,7 @@
 
 ## Spring Boot Security CSRF
 
-- 访问任意 API 均能获取到 SCRF Cookie
+- 设置 CSRF 策略为 CookieCsrfTokenRepository.class（默认为懒加载模式，第一次请求 POST 异常），访问任意 API 均能获取到 SCRF Cookie
 
 - SCRF Cookie HttpOnly = true，不可读取
 
