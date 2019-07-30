@@ -11,7 +11,22 @@
 
 <script>
     export default {
-        name: "About"
+        name: "About",
+        /**
+         * 创建期间的生命周期函数：
+         * 实例刚在内存中被创建出来，此时，还没有初始化好 data 和 methods 属性
+         */
+        beforeCreate: function () {
+
+            this.$axios("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js").then(function (resource) {
+                // eslint-disable-next-line no-console
+                console.log("测试 axios 成功", resource);
+            }).catch(function (resource) {
+                // eslint-disable-next-line no-console
+                console.log("测试 axios 响应失败", Promise.reject(resource));
+            });
+
+        },
     }
 </script>
 
