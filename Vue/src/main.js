@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
 
     /* 路由授权拦截 */
     if (to.meta.requireAuth) { // 判断页面是否需要授权
-        if (store.state.isLogin) { // 判断进入授权页面时是否登录
+        if (store.state.isLocalLogin || store.state.isSessionLogin) { // 判断进入授权页面时是否已登录
             next(); // 如果已登录，直接进入
         } else {
             next({
