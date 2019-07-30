@@ -33,4 +33,10 @@
         color: #2c3e50;
         margin-top: 60px;
     }
+
+    /* Message 消息提示 宽度 */
+    .message-min-w {
+        min-width: 300px !important;
+    }
+
 </style>
