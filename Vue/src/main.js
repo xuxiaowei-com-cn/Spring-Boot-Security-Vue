@@ -48,6 +48,8 @@ router.beforeEach((to, from, next) => {
          * 如果已登录，应该进行适时鉴权
          *
          * 如：登录是否过期，权限是否改变，注意鉴权的时机
+         *
+         * 另：当删除了 Cookie、会话储存、本地储存时，可能还存在权限，此情况另外处理
          */
         if (store.state.isLocalLogin) { // 本地储存
             next(); // 如果已登录，直接进入
