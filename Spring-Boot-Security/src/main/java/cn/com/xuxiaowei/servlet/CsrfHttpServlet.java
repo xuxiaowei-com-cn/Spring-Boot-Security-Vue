@@ -15,6 +15,8 @@
  */
 package cn.com.xuxiaowei.servlet;
 
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +25,13 @@ import java.io.IOException;
 
 /**
  * CSRF HttpServlet
+ * <p>
+ * 由于使用了 {@link CookieCsrfTokenRepository}，不需要响应内容，
+ * 任何访问 API 的请求，都会响应 CSRF Cookie，此 Cookie 默认为 HttpOnly = true（不可读取），
+ * 请勿修改为 HttpOnly = false（可读取），否则安全性无法保障
  *
  * @author xuxiaowei
+ * @see CookieCsrfTokenRepository
  * @since 0.0.1
  */
 public class CsrfHttpServlet extends HttpServlet {
@@ -36,7 +43,8 @@ public class CsrfHttpServlet extends HttpServlet {
         resp.setContentType("text/json;charset=UTF-8");
 
         // 响应内容
-        resp.getWriter().println("");
+        // 暂不需要响应内容
+        // <code>resp.getWriter().println("");</code>
 
         // 响应状态
         resp.setStatus(HttpServletResponse.SC_OK);
