@@ -16,6 +16,8 @@
 package cn.com.xuxiaowei.configuration;
 
 import cn.com.xuxiaowei.filter.CsrfBeforeFilter;
+import cn.com.xuxiaowei.handler.LoginAuthenticationSuccessHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -99,6 +101,9 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
         // CSRF 策略 运行前 Filter
         http.addFilterBefore(new CsrfBeforeFilter(cookieCsrfTokenRepository()), CsrfFilter.class);
 
+        // 用于处理成功用户身份验证的策略。
+        http.formLogin().successHandler(loginAuthenticationSuccessHandler());
+
     }
 
     /**
@@ -123,6 +128,14 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
         CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
         cookieCsrfTokenRepository.setCookieName(CSRF_COOKIE_NAME);
         return cookieCsrfTokenRepository;
+    }
+
+    /**
+     * 用于处理成功用户身份验证的策略。
+     */
+    @Bean
+    LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler() {
+        return new LoginAuthenticationSuccessHandler();
     }
 
 }
