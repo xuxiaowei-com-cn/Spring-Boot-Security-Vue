@@ -45,4 +45,15 @@ public class LoginRestController {
         return map;
     }
 
+    /**
+     * 登录成功
+     */
+    @RequestMapping(value = "/success.do", method = RequestMethod.POST)
+    public Map<String, Object> success(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>(4);
+        map.put("code", 0);
+        map.put("msg", "登录成功");
+        return map;
+    }
+
 }
