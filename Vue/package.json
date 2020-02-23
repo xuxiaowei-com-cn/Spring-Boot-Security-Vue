@@ -12,7 +12,7 @@
     "core-js": "^3.6.4",
     "element-ui": "^2.13.0",
     "jsencrypt": "^3.0.0-rc.1",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "vue-cookies": "^1.6.1",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.5",
@@ -20,12 +20,12 @@
     "vuex-persistedstate": "^2.7.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.2",
-    "@vue/cli-plugin-eslint": "^4.2.2",
-    "@vue/cli-service": "^4.2.2",
+    "@vue/cli-plugin-babel": "~4.2.0",
+    "@vue/cli-plugin-eslint": "~4.2.0",
+    "@vue/cli-service": "~4.2.0",
     "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.1.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -37,15 +37,10 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
+    },
+    "rules": {}
   },
   "browserslist": [
     "> 1%",
