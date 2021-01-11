@@ -124,7 +124,7 @@ public class CsrfBeforeFilter extends OncePerRequestFilter {
      */
     private static class CustomizeRequest extends HttpServletRequestWrapper {
 
-        private Map<String, String> headerMap;
+        private final Map<String, String> headerMap;
 
         /**
          * 构造一个包装给定请求的请求对象。
@@ -138,9 +138,9 @@ public class CsrfBeforeFilter extends OncePerRequestFilter {
             headerMap = new HashMap<>();
 
             // 将原始 Headers 放入新 Headers（Map）中
-            Enumeration enumeration = request.getHeaderNames();
+            Enumeration<String> enumeration = request.getHeaderNames();
             while (enumeration.hasMoreElements()) {
-                String name = (String) enumeration.nextElement();
+                String name = enumeration.nextElement();
                 headerMap.put(name, request.getHeader(name));
             }
         }
