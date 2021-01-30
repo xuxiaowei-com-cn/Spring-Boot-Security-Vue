@@ -20,6 +20,8 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.http.HttpServlet;
+
 /**
  * Servlet 配置
  *
@@ -33,7 +35,7 @@ public class HttpServletConfiguration {
      * CSRF HttpServlet
      */
     @Bean
-    ServletRegistrationBean rsaHttpServlet() {
+    public ServletRegistrationBean<HttpServlet> rsaHttpServlet() {
         return new ServletRegistrationBean<>(new CsrfHttpServlet(), "/_csrf.do");
     }
 
