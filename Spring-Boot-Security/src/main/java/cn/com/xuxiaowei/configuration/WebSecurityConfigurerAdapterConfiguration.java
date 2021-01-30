@@ -134,7 +134,7 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
      * 用于处理成功用户身份验证的策略。
      */
     @Bean
-    LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler() {
+    public LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler() {
         return new LoginAuthenticationSuccessHandler();
     }
 
