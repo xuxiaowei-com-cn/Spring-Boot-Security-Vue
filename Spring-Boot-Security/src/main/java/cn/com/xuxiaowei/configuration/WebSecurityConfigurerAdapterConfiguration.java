@@ -19,6 +19,7 @@ import cn.com.xuxiaowei.filter.CsrfBeforeFilter;
 import cn.com.xuxiaowei.handler.LoginAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -26,10 +27,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.LazyCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 /**
  * Spring Security 配置
@@ -104,6 +108,9 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
         // 用于处理成功用户身份验证的策略。
         http.formLogin().successHandler(loginAuthenticationSuccessHandler());
 
+        // 跨域配置
+        http.cors().configurationSource(urlBasedCorsConfigurationSource());
+
     }
 
     /**
@@ -128,6 +135,25 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
         CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
         cookieCsrfTokenRepository.setCookieName(CSRF_COOKIE_NAME);
         return cookieCsrfTokenRepository;
+    }
+
+    /**
+     * 跨域配置
+     *
+     * @return 返回 跨域配置
+     */
+    @Bean
+    public UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource() {
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:8001", "http://localhost:8001"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedMethods(Arrays.asList(HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.HEAD.toString()));
+
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return urlBasedCorsConfigurationSource;
     }
 
     /**
