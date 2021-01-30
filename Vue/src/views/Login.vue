@@ -58,7 +58,7 @@
                 params.append('remember-me', form.rememberMe);
                 params.append('password', form.password);
 
-                this.$axios.post("/login.do", params).then(function (resource) {
+                this.$axios.post("http://127.0.0.1:8002/login.do", params).then(function (resource) {
                     // eslint-disable-next-line no-console
                     console.log("登录结果", resource);
                     let data = resource.data;

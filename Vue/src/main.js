@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
     /**
      * 获取 CSRF Cookie
      */
-    Axios.get("/_csrf.do").then(function (resource) {
+    Axios.get("http://127.0.0.1:8002/_csrf.do").then(function (resource) {
         // eslint-disable-next-line no-console
         console.log("获取 CSRF 成功", resource);
         // eslint-disable-next-line no-console
