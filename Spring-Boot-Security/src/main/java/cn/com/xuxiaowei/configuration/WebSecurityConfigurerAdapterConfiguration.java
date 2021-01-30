@@ -121,9 +121,9 @@ public class WebSecurityConfigurerAdapterConfiguration extends WebSecurityConfig
      * 此 Cookie 默认为 HttpOnly = true（不可读取），
      * 请勿修改为 HttpOnly = false（可读取），否则安全性无法保障
      * <p>
-     * 由于此 Cookie 无法读取，
-     * 提交数据时在{@link CsrfFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)}中验证 CSRF 时获取不到，
-     * 获取方式为：<code>String actualToken = request.getHeader(csrfToken.getHeaderName());</code>，即：从 Headers 中获取，
+     * 由于 {@link CsrfFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)} 中获取 CSRF 时，
+     * 默认从 Header 或 Parameter 中获取，但是如上所述，此 Cookie 在前端无法读取，因此读取 CSRF 时读取不到。
+     * <p>
      * 所以需要使用 {@link CsrfBeforeFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)}，
      * 将前端传来的 Cookie 中的 CSRF 放入 Headers 中
      *
